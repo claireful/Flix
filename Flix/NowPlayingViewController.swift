@@ -12,7 +12,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
 
     //Variables & Outlets
     @IBOutlet weak var tableView: UITableView!
-    
+    var movies: [[String: Any]] = []
     
     
     override func viewDidLoad() {
@@ -32,15 +32,20 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 print(error.localizedDescription)
             } else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                print(dataDictionary)
+                
+                let movies = dataDictionary["results"] as! [[String:Any]] //an array of dictionaries
+                self.movies = movies
+                
+                //wait for netword request to return to set up tableview -- bc asyncronous
+                self.tableView.reloadData()
+                
                 /*
-                 let movies = dataDictionary["results"] as! [[String:Any]]
                 for movie in movies{
                     let title = movie["title"] as! String
                     print(title)
                 }
-                 */
-            }
+                */
+            }  //^^completion block
             
         }
         task.resume()
@@ -48,11 +53,20 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
 
     //data source methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
+        
+        let movie = movies[indexPath.row]
+        let title = movie["title"] as! String
+        let overview = movie["overview"] as! String
+        
+        cell.titleLabel.text = title
+        cell.overviewLabel.text = overview
+        //cell.posterImage =
+        
         return cell
     }
     
