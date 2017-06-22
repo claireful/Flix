@@ -15,14 +15,28 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     //Variables & Outlets
     @IBOutlet weak var tableView: UITableView!
     var movies: [[String: Any]] = []
+    var refreshControl: UIRefreshControl!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(NowPlayingViewController.didPullToRefresh(_:)), for: .valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+        
         //handle being datasource
         tableView.dataSource = self
+        
+        fetchNMovies()
 
+    }
+    
+    func didPullToRefresh(_ refreshControl:UIRefreshControl){
+        fetchNMovies()
+    }
+    
+    func fetchNMovies(){
         //create network request
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         //force unwrap ^^ nil would crash. only case where this would be nil is when apikey is wrong-->crash intended
@@ -42,15 +56,18 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 self.tableView.reloadData()
                 
                 /*
-                for movie in movies{
-                    let title = movie["title"] as! String
-                    print(title)
-                }
-                */
+                 for movie in movies{
+                 let title = movie["title"] as! String
+                 print(title)
+                 }
+                 */
+                
+                self.refreshControl.endRefreshing()
             }  //^^completion block
             
         }
         task.resume()
+
     }
 
     //data source methods
