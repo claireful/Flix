@@ -21,6 +21,7 @@ class SuperheroViewController: UIViewController, UICollectionViewDataSource {
         super.viewDidLoad()
         collectionView.dataSource = self
         fetchNMovies()
+        
         // Do any additional setup after loading the view.
     }
 
