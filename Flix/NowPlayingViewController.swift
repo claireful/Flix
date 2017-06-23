@@ -8,7 +8,7 @@
 
 import UIKit
 import AlamofireImage
-
+import KRProgressHUD
 
 class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
@@ -16,7 +16,6 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     var movies: [[String: Any]] = []
     var refreshControl: UIRefreshControl!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +36,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     }
     
     func fetchNMovies(){
+        KRProgressHUD.show()
         //create network request
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
         //force unwrap ^^ nil would crash. only case where this would be nil is when apikey is wrong-->crash intended
@@ -54,7 +54,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 
                 //wait for netword request to return to set up tableview -- bc asyncronous
                 self.tableView.reloadData()
-                
+                KRProgressHUD.dismiss()
+                //got all the data
+
                 /*
                  for movie in movies{
                  let title = movie["title"] as! String
