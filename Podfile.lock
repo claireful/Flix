@@ -5,17 +5,20 @@ PODS:
   - KRActivityIndicatorView (2.0.2)
   - KRProgressHUD (3.0.0):
     - KRActivityIndicatorView (~> 2.0.2)
+  - SwipyCell (3.1.1)
 
 DEPENDENCIES:
   - AlamofireImage (~> 3.1)
   - KRProgressHUD
+  - SwipyCell (~> 3.1)
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   AlamofireImage: 157ed682cc81d3b9db4fb90c1f12180ac552d93b
   KRActivityIndicatorView: 2a9d5442ba8da6274db3afdf46aeaef7cf6dd8ad
   KRProgressHUD: 14f9fad06080bdb1e59569104a8eda654c83e813
+  SwipyCell: fec2d9e103c2b8db47fbd44b2df150765ecb5c42
 
-PODFILE CHECKSUM: 8ac967cfe8896bd8e673924de5955ebbbac3fd49
+PODFILE CHECKSUM: 138479875eff15215361a0555c301bf4da415dc2
 
 COCOAPODS: 1.2.1

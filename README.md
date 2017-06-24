@@ -2,7 +2,7 @@
 
 Flix is a movies app using the [The Movie Database API](http://docs.themoviedb.apiary.io/#).
 
-Time spent: **X** hours spent in total
+Time spent: 10 hours spent in total
 
 ## User Stories
 
@@ -31,8 +31,8 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1. 
-2.
+1. Want to figure out how to do infinite scroll
+2. Learn more about interfaces in order to implement CocoaPods
 
 ## Video Walkthrough
 
@@ -52,10 +52,11 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-- Activity progress bar did not work, so I used a CocoaPod instead
+- used a CocoaPod for activity bar
 
 ## Credits
 
+-KRProgressHUD
 List an 3rd party libraries, icons, graphics, or other assets you used in your app.
 
 - [AFNetworking](https://github.com/AFNetworking/AFNetworking) - networking task library
