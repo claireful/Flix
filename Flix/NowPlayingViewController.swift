@@ -44,45 +44,14 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
     func fetchNMovies(){
         
-        KRProgressHUD.show()
+        //KRProgressHUD.show()
         //create network request
-        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
-        //force unwrap ^^ nil would crash. only case where this would be nil is when apikey is wrong-->crash intended
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
-        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
-        let task = session.dataTask(with: request) { (data, response, error) in
-            //this will run with the network request returns
-            if let error = error {
-                print(error.localizedDescription)
-            } else if let data = data {
-                let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                
-                let movieDictionaries = dataDictionary["results"] as! [[String:Any]] //an array of dictionaries
-                self.movies = Movie.movies(dictionaries: movieDictionaries)
-//                self.movies = []
-//                for dictionary in movieDictionaries {
-//                    let movie = Movie(dictionary:dictionary)
-//                    self.movies.append(movie)
-                }
-                
-                //wait for netword request to return to set up tableview -- bc asyncronous
+        MovieApiManager().nowPlayingMovies { (movies: [Movie]?, error: Error?) in
+            if let movies = movies {
+                self.movies = movies
                 self.tableView.reloadData()
-                KRProgressHUD.dismiss()
-                //got all the data
-
-                /*
-                 for movie in movies{
-                 let title = movie["title"] as! String
-                 print(title)
-                 }
-                 */
-                
-                self.refreshControl.endRefreshing()
-            }  //^^completion block
-            
-        
-        task.resume()
-        
+            }
+        }        
         
     }
     

@@ -24,8 +24,8 @@ class MovieCell: UITableViewCell {
         }
         didSet {
             print("Did set movie")
-            movie.title = titleLabel.text!
-            movie.overview = overviewLabel.text!
+            titleLabel.text! =  movie.title
+            overviewLabel.text! = movie.overview
             
             if let validURL = movie.posterURL {
                 self.posterImage.af_setImage(withURL: validURL)
