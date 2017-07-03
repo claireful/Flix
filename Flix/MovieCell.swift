@@ -8,7 +8,7 @@
 
 import UIKit
 import SwipyCell
-import Alamofire
+import AlamofireImage
 
 class MovieCell: UITableViewCell {
     //Outlets
@@ -26,8 +26,12 @@ class MovieCell: UITableViewCell {
             print("Did set movie")
             movie.title = titleLabel.text!
             movie.overview = overviewLabel.text!
-            self.posterImage.image.af_setImage(withURL: movie.posterURL)
-        
+            
+            if let validURL = movie.posterURL {
+                self.posterImage.af_setImage(withURL: validURL)
+
+            }
+            
         }
     }
     
