@@ -95,19 +95,21 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell", for: indexPath) as! MovieCell
         
         
-        let movie = movies[indexPath.row]
-        let title = movie.title //movie["title"] as! String
-        let overview = movie.overview //movie["overview"] as! String
-        
-        cell.titleLabel.text = title
-        cell.overviewLabel.text = overview
-        
-        let posterPath = movie.posterURL //movie["poster_path"] as! String
-        //let baseURLString = "https://image.tmdb.org/t/p/w500"
-        //let posterURL = URL(string: baseURLString + posterPathString)!
-        
-        cell.posterImage.af_setImage(withURL: posterPath!)
-        //cell.delegate = self
+        //let movie = movies[indexPath.row]
+        cell.movie = movies[indexPath.row]
+
+//        let title = movie.title //movie["title"] as! String
+//        let overview = movie.overview //movie["overview"] as! String
+//        
+//        cell.titleLabel.text = title
+//        cell.overviewLabel.text = overview
+//        
+//        let posterPath = movie.posterURL //movie["poster_path"] as! String
+//        //let baseURLString = "https://image.tmdb.org/t/p/w500"
+//        //let posterURL = URL(string: baseURLString + posterPathString)!
+//        
+//        cell.posterImage.af_setImage(withURL: posterPath!)
+//        //cell.delegate = self
         
         
         
