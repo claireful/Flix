@@ -19,6 +19,15 @@ class Movie {
         title = dictionary["title"] as? String ?? "No title"
         overview = dictionary["overview"] as? String ?? "No overview"
     }
+    
+    class func movies(dictionaries: [[String:Any]]) -> [Movie]{
+        var movies: [Movie] = []
+        for dictionary in dictionaries {
+            let movie = Movie(dictionary: dictionary)
+            movies.append(movie)
+        }
+        return movies
+    }
  
 
 }

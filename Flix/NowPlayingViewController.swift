@@ -15,7 +15,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     
     //Variables & Outlets
     @IBOutlet weak var tableView: UITableView!
-    var movies: [[String: Any]] = []
+    var movies: [Movie] = []
     var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
@@ -28,7 +28,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         //handle being datasource
         tableView.dataSource = self
         
+        //row
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = 50
+        
         fetchNMovies()
+        
+        
         
     }
     
@@ -37,6 +43,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
     }
     
     func fetchNMovies(){
+        
         KRProgressHUD.show()
         //create network request
         let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
@@ -50,8 +57,13 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
             } else if let data = data {
                 let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 
-                let movies = dataDictionary["results"] as! [[String:Any]] //an array of dictionaries
-                self.movies = movies
+                let movieDictionaries = dataDictionary["results"] as! [[String:Any]] //an array of dictionaries
+                self.movies = Movie.movies(dictionaries: movieDictionaries)
+//                self.movies = []
+//                for dictionary in movieDictionaries {
+//                    let movie = Movie(dictionary:dictionary)
+//                    self.movies.append(movie)
+                }
                 
                 //wait for netword request to return to set up tableview -- bc asyncronous
                 self.tableView.reloadData()
@@ -68,8 +80,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
                 self.refreshControl.endRefreshing()
             }  //^^completion block
             
-        }
+        
         task.resume()
+        
         
     }
     
@@ -83,21 +96,22 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         
         
         let movie = movies[indexPath.row]
-        let title = movie["title"] as! String
-        let overview = movie["overview"] as! String
+        let title = movie.title //movie["title"] as! String
+        let overview = movie.overview //movie["overview"] as! String
         
         cell.titleLabel.text = title
         cell.overviewLabel.text = overview
         
-        let posterPathString = movie["poster_path"] as! String
-        let baseURLString = "https://image.tmdb.org/t/p/w500"
-        let posterURL = URL(string: baseURLString + posterPathString)!
+        let posterPath = movie.posterURL //movie["poster_path"] as! String
+        //let baseURLString = "https://image.tmdb.org/t/p/w500"
+        //let posterURL = URL(string: baseURLString + posterPathString)!
         
-        cell.posterImage.af_setImage(withURL: posterURL)
+        cell.posterImage.af_setImage(withURL: posterPath!)
         //cell.delegate = self
         
-        //drag
         
+        
+        //drag
         return cell
     }
     
@@ -107,7 +121,7 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         if let indexPath = tableView.indexPath(for: cell){
             let movie = movies[indexPath.row]
             let detailViewController = segue.destination as! DetailViewController
-            detailViewController.movie = movie
+            detailViewController.singleMovie = movie
         }
         
     }
@@ -116,8 +130,9 @@ class NowPlayingViewController: UIViewController, UITableViewDataSource {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    
-    
 }
+    
+    
+    
+    
+
